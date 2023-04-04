@@ -1,0 +1,65 @@
+create table Employee(
+	employee_id int primary key,
+	first_name varchar(10),
+	last_name varchar(10),
+	email varchar(30),
+	phone_no bigint,
+	hire_date date,
+	job_id varchar(20),
+	salary decimal,
+	commision_pct decimal,
+	manager_id int,
+	department_id int	
+);   
+
+INSERT INTO Employee VALUES (100, 'Steven', 'King', 'SKING', '5151234567', '1987-06-17', 'AD_PRES', 24000.00, 0.00, 0, 90);
+INSERT INTO Employee VALUES (101, 'Neena', 'Kochhar', 'NKOCHHAR', '5151234568', '1987-06-18', 'AD_VP', 17000.00, 0.00, 100, 90);
+INSERT INTO Employee VALUES (102, 'Lex', 'de haan', 'LDEHAAN', '5151234569', '1987-06-19', 'AD_VP', 17000.00, 0.00,100 , 90);
+INSERT INTO Employee VALUES (103, 'Alexander', 'hunold', 'AHUNOLD  ', '5154234567', '1987-06-20', 'IT_PROS', 9000.00, 0.00, 102, 60);
+INSERT INTO Employee VALUES (104, 'Bruce', 'ernst', 'BERNST', '5154234568', '1987-06-21', 'IT_PROG', 6000.00, 0.00, 103, 60);
+INSERT INTO Employee VALUES (105, 'DAVID', 'austin', 'DAUSTIN', '5154234569', '1987-06-22', 'IT_PROG', 4800.00, 0.00, 103, 60);
+INSERT INTO Employee VALUES (106, 'Valli', 'pataballa', 'VPATABAL ', '5154234560', '1987-06-22','IT_PROG',4800.00,0.00,103,60);
+
+select * from employee;
+
+//1
+select first_name,last_name from employee where salary > (select salary from employee where employee_id=102);
+			
+//2      
+SELECT first_name, last_name, salary, department_id, job_id FROM employee WHERE job_id = ( SELECT job_id  FROM employee  WHERE employee_id=101);
+
+//3
+select first_name,last_name,department_id from employee where salary=(select min(salary) from employee);
+
+//4
+select employee_id,first_name,last_name from employee where salary > (select avg(salary) from employee);
+
+//5
+select first_name,last_name,employee_id,salary from employee where manager_id=(select employee_id from employee where first_name='Lex');
+
+//6
+select * from employee where salary=6000 and manager_id=103;
+
+//7
+select * from employee where employee_id in (134,159,183);
+
+//8
+select * from employee where salary between 1000 and 5000;
+
+//9
+select * from employee order by salary desc limit 2 offset 1;
+
+//10
+select employee_id,first_name,last_name from employee where department_id = (select department_id from employee where first_name like '%t%');
+
+//11
+select employee_id,first_name,last_name,job_id from employee where salary < any (select salary from employee where job_id='IT_PROG');
+
+//12
+select employee_id,first_name,last_name,job_id from employee where salary > all (select avg(salary) from employee group by department_id);
+
+//13
+select department_id from employee where employee_id in (select distinct employee_id from employee);
+
+//14
+select last_name from employee where department_id in (select department_id from employee where job_id like 'IT%' and salary > any (select avg(salary) from employee));
