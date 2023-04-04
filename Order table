@@ -1,0 +1,48 @@
+create table orders
+(
+ord_no int primary key,
+purch_amt decimal,
+ord_date date,
+customer_id int,
+salesman_id int
+);
+
+insert into orders values(70001,150.5,'2012-10-05',3005,5002);
+insert into orders values(70009,270.65,'2012-09-10',3001,5005);
+insert into orders values(70002,65.26,'2012-10-05',3002,5001);
+insert into orders values(70004,110.5,'2012-08-17',3009,5003);
+insert into orders values(70007,948.5,'2012-09-10',3005,5002);
+insert into orders values(70005,2400.6,'2012-07-27',3007,5001);
+insert into orders values(70008,5760,'2012-09-10',3002,5001);
+insert into orders values(70010,1983.43,'2012-10-10',3004,5006);
+insert into orders values(70003,2480.4,'2012-10-10',3009,5003);
+insert into orders values(70012,250.45,'2012-06-27',3008,5002);
+insert into orders values(70011,75.29,'2012-08-17',3003,5007);
+insert into orders values(70013,3045.6,'2012-04-25',3002,5001);
+
+select * from orders;
+
+//1
+select sum(purch_amt) as total_purchase_amount from orders;
+
+//2
+select avg(purch_amt) average_purchase_amount from orders;
+
+//3
+select customer_id,max(purch_amt) from orders group by customer_id;
+
+//4
+select customer_id,ord_date,max(purch_amt) highest_purchase_amount from orders where ord_date='2012-09-10' group by customer_id,ord_date;
+
+//5
+select customer_id,ord_date,max(purch_amt) from orders group by customer_id,ord_date having max(purch_amt)>2000;
+
+//6
+select customer_id,ord_date,max(purch_amt) from orders group by customer_id,ord_date having max(purch_amt) in (2000,3000,5760,6000);
+
+//7
+select customer_id,max(purch_amt) from orders group by customer_id having customer_id between 3002 and 3007 and max(purch_amt)>1000;
+select customer_id,max(purch_amt) from orders where customer_id between 3002 and 3007 group by customer_id having max(purch_amt)>1000;
+
+//8
+select salesman_id,max(purch_amt) from orders where salesman_id between 5003 and 5008 group by salesman_id;
