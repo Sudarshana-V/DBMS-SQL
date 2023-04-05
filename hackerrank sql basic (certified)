@@ -1,0 +1,6 @@
+select cust.customer_id,cust.name,concat('+',c.country_code,cust.phone_number) from customers cust join country_codes c on cust.country=c.country;
+//country codes
+
+
+select s.stock_code from price_today s join price_tomorrow t on s.stock_code=t.stock_code where s.price<t.price order by s.stock_code;
+//profitable stocks
